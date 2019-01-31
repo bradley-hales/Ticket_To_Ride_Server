@@ -11,8 +11,33 @@ public class Game {
     private String gameName;
     private int numPlayers;
 
-    public void addPlayer(String userName) {
-        //TODO: Implement
+    public boolean addPlayer(String userName) {
+        if (gamePlayers.containsKey(userName)) {
+            return false;
+        }
+        if (gamePlayers.size() == numPlayers) {
+            return false;
+        }
+        Player newPlayer = new Player();
+        newPlayer.setUserName(userName);
+        int numPlayersSoFar = gamePlayers.size();
+        if (numPlayersSoFar == 0) {
+            newPlayer.setColor("Blue");
+        }
+        else if (numPlayersSoFar == 1) {
+            newPlayer.setColor("Green");
+        }
+        else if (numPlayersSoFar == 2) {
+            newPlayer.setColor("Red");
+        }
+        else if (numPlayersSoFar == 3) {
+            newPlayer.setColor("Yellow");
+        }
+        else {
+            newPlayer.setColor("Black");
+        }
+        gamePlayers.put(userName, newPlayer);
+        return true;
     }
 
     public String getGameName() {

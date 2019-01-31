@@ -10,10 +10,9 @@ import Result.CreateGameResult;
 
 public class CreateGameService {
     Model model = Model.getInstance();
-    private CreateGameRequest data;
-    public CreateGameResult createGame() {
+    public CreateGameResult createGame(CreateGameRequest req) {
         CreateGameResult res = new CreateGameResult();
-        if (model.createGame(data.getGameName(), data.getNumPlayers())) {
+        if (model.createGame(req.getGameName(), req.getNumPlayers())) {
             res.setSuccess(true);
             return res;
         }

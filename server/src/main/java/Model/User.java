@@ -15,12 +15,10 @@ public class User {
     private List<iClientCommand> commandList = new ArrayList<>();
 
     public List<iClientCommand> getCommands() {
-        List<iClientCommand> commands = new ArrayList<>();
-        //TODO: Implement
-        return commands;
+        return commandList;
     }
     public void addCommand(iClientCommand command) {
-        //TODO:Implement
+        commandList.add(command);
     }
 
     public String getUserName() {

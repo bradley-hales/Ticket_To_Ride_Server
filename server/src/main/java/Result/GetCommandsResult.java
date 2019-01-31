@@ -11,6 +11,7 @@ import Command.ClientCommand.iClientCommand;
 public class GetCommandsResult implements iResult {
     private String errorMessage;
     private boolean success;
+    private String userName;
     private List<iClientCommand> commandList;
 
     public String getErrorMessage() {
@@ -27,6 +28,14 @@ public class GetCommandsResult implements iResult {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public List<iClientCommand> getCommandList() {

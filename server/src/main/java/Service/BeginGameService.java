@@ -10,25 +10,15 @@ import Result.BeginGameResult;
 
 public class BeginGameService {
     Model model = Model.getInstance();
-    private BeginGameRequest data;
-
-    public BeginGameResult beginGame() {
+    public BeginGameResult beginGame(BeginGameRequest req) {
         BeginGameResult res = new BeginGameResult();
-        if (model.checkIfGameReady(data.getGameName())) {
-            //TODO: Implement Beginning a new game
-            res.setGameName(data.getGameName());
+        if (model.beginGame(req.getGameName())) {
+            res.setGameName(req.getGameName());
             res.setSuccess(true);
             return res;
         }
-        res.setErrorMessage("Not enough players");
+        res.setErrorMessage("Game could not be started");
         res.setSuccess(false);
         return res;
-    }
-    public BeginGameRequest getData() {
-        return data;
-    }
-
-    public void setData(BeginGameRequest data) {
-        this.data = data;
     }
 }
