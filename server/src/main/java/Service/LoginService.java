@@ -9,24 +9,16 @@ import Result.LoginResult;
 
 public class LoginService {
     Model.Model model = Model.Model.getInstance();
-    private LoginRequest data;
-    public LoginResult login() {
+    public LoginResult login(LoginRequest req) {
         LoginResult res = new LoginResult();
-        if (model.authenticateUser(data.getUserName(), data.getPassword())) {
+        if (model.authenticateUser(req.getUserName(), req.getPassword())) {
             res.setSuccess(true);
+	    res.setUserName(req.getUserName());
         }
         else {
             res.setErrorMessage("Invalid Login Credentials");
             res.setSuccess(false);
         }
         return res;
-    }
-
-    public LoginRequest getData() {
-        return data;
-    }
-
-    public void setData(LoginRequest data) {
-        this.data = data;
     }
 }
