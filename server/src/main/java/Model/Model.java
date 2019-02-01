@@ -1,7 +1,13 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import Command.ClientCommand.AddGameCommand;
+import Command.ClientCommand.AddPlayerCommand;
+import Command.ClientCommand.BeginGameCommand;
+import Command.ClientCommand.RemoveGameCommand;
 import Result.GetCommandsResult;
 
 /**
@@ -30,7 +36,12 @@ public class Model {
         game.setGameName(gameName);
         game.setNumPlayers(numPlayers);
         games.put(gameName, game);
-        //TODO: Create Client Commands for other users
+        AddGameCommand addGameCommand = new AddGameCommand();
+        addGameCommand.setGameName(gameName);
+        addGameCommand.setNumPlayers(numPlayers);
+        for (User user: users.values()) {
+            user.addCommand(addGameCommand);
+        }
         return true;
     }
     public boolean authenticateUser(String userName, String password) {
@@ -61,7 +72,15 @@ public class Model {
         if (gameToCheck.getNumPlayers() == gameToCheck.getGamePlayers().size()) {
             return true;
         }
-        //TODO: Implement beginning the game
+        List<String> userNamesOfPlayers = new ArrayList<>();
+        for (Player player: gameToCheck.getGamePlayers().values()) {
+            userNamesOfPlayers.add(player.getUserName());
+        }
+        BeginGameCommand beginGameCommand = new BeginGameCommand();
+        beginGameCommand.setGameName(gameName);
+        for (String user: userNamesOfPlayers) {
+            users.get(user).addCommand(beginGameCommand);
+        }
         return false;
     }
 
@@ -70,8 +89,23 @@ public class Model {
         if (game == null) {
             return false;
         }
-        //TODO: Create Client Commands for other players
-        //TODO: Remove game is necessary for other users
+        AddPlayerCommand addPlayerCommand = new AddPlayerCommand();
+        addPlayerCommand.setGameName(gameName);
+        addPlayerCommand.setUsername(userName);
+        if (game.getNumPlayers() == game.getGamePlayers().size()) {
+            RemoveGameCommand removeGameCommand = new RemoveGameCommand();
+            removeGameCommand.setGameName(gameName);
+            for (User user: users.values()) {
+                if (!game.getGamePlayers().keySet().contains(user.getUserName())) {
+                    user.addCommand(removeGameCommand);
+                }
+            }
+        }
+        else {
+            for (User user: users.values()) {
+                user.addCommand(addPlayerCommand);
+            }
+        }
         return game.addPlayer(userName);
     }
 
@@ -98,6 +132,7 @@ public class Model {
         }
         res.setCommandList(user.getCommands());
         res.setSuccess(true);
+        user.clearCommands();
         return res;
     }
 }
