@@ -1,6 +1,7 @@
 package Command.ServerCommand;
 
 import Request.JoinGameRequest;
+import Request.iRequest;
 import Result.JoinGameResult;
 import Service.JoinGameService;
 
@@ -9,21 +10,21 @@ import Service.JoinGameService;
  */
 
 public class JoinGameCommand implements iServerCommand {
-    private JoinGameRequest data;
-    public JoinGameCommand(JoinGameRequest request) {
+    private iRequest data;
+    public JoinGameCommand(iRequest request) {
         data = request;
     }
     @Override
     public JoinGameResult execute() {
         JoinGameService joinGameService = new JoinGameService();
-        return joinGameService.joinGame(data);
+        return joinGameService.joinGame((JoinGameRequest)data);
     }
 
-    public JoinGameRequest getData() {
+    public iRequest getData() {
         return data;
     }
 
-    public void setData(JoinGameRequest data) {
+    public void setData(iRequest data) {
         this.data = data;
     }
 }

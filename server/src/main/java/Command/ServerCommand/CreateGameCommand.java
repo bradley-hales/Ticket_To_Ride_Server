@@ -1,6 +1,7 @@
 package Command.ServerCommand;
 
 import Request.CreateGameRequest;
+import Request.iRequest;
 import Result.CreateGameResult;
 import Service.CreateGameService;
 
@@ -9,21 +10,20 @@ import Service.CreateGameService;
  */
 
 public class CreateGameCommand implements iServerCommand {
-    private CreateGameRequest data;
-    public CreateGameCommand(CreateGameRequest request) {
+    private iRequest data;
+    public CreateGameCommand(iRequest request) {
         data = request;
     }
-    @Override
     public CreateGameResult execute() {
         CreateGameService createGameService = new CreateGameService();
-        return createGameService.createGame(data);
+        return createGameService.createGame((CreateGameRequest)data);
     }
 
-    public CreateGameRequest getData() {
+    public iRequest getData() {
         return data;
     }
 
-    public void setData(CreateGameRequest data) {
+    public void setData(iRequest data) {
         this.data = data;
     }
 }

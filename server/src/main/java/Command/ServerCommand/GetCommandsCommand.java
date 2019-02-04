@@ -2,6 +2,7 @@ package Command.ServerCommand;
 
 import Command.ClientCommand.iClientCommand;
 import Request.GetCommandsRequest;
+import Request.iRequest;
 import Result.GetCommandsResult;
 import Service.GetCommandsService;
 
@@ -10,21 +11,21 @@ import Service.GetCommandsService;
  */
 
 public class GetCommandsCommand implements iServerCommand {
-    private GetCommandsRequest data;
-    public GetCommandsCommand(GetCommandsRequest request) {
+    private iRequest data;
+    public GetCommandsCommand(iRequest request) {
         data = request;
     }
     @Override
     public GetCommandsResult execute() {
         GetCommandsService getCommandsService = new GetCommandsService();
-        return getCommandsService.getCommands(data);
+        return getCommandsService.getCommands((GetCommandsRequest)data);
     }
 
-    public GetCommandsRequest getData() {
+    public iRequest getData() {
         return data;
     }
 
-    public void setData(GetCommandsRequest data) {
+    public void setData(iRequest data) {
         this.data = data;
     }
 }
