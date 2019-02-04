@@ -13,7 +13,6 @@ public class JoinGameService {
     public JoinGameResult joinGame(JoinGameRequest req) {
         JoinGameResult res = new JoinGameResult();
         if (model.joinGame(req.getUserName(), req.getGameName())) {
-            res.setUserName(req.getUserName());
             res.setPlayerColor(model.getPlayerColor(req.getGameName(), req.getUserName()));
             res.setSuccess(true);
             return res;

@@ -8,7 +8,6 @@ public class JoinGameResult implements iResult {
     private String errorMessage;
     private boolean success;
     private String playerColor;
-    private String userName;
 
     public String getErrorMessage() {
         return errorMessage;
@@ -32,13 +31,5 @@ public class JoinGameResult implements iResult {
 
     public void setPlayerColor(String playerColor) {
         this.playerColor = playerColor;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 }

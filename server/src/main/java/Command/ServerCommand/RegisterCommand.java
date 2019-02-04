@@ -10,6 +10,10 @@ import Service.RegisterService;
 
 public class RegisterCommand implements iServerCommand {
     private RegisterRequest data;
+    public RegisterCommand(RegisterRequest request) {
+        data = request;
+    }
+    @Override
     public RegisterResult execute() {
         RegisterService registerService = new RegisterService();
         return registerService.register(data);

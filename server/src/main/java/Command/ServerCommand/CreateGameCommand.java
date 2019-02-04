@@ -10,6 +10,10 @@ import Service.CreateGameService;
 
 public class CreateGameCommand implements iServerCommand {
     private CreateGameRequest data;
+    public CreateGameCommand(CreateGameRequest request) {
+        data = request;
+    }
+    @Override
     public CreateGameResult execute() {
         CreateGameService createGameService = new CreateGameService();
         return createGameService.createGame(data);

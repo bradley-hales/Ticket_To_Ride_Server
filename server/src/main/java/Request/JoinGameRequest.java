@@ -5,7 +5,7 @@ package Request;
  */
 
 public class JoinGameRequest implements iRequest {
-    private String gameName; //TODO: Update String to GameType
+    private String gameName;
     private String userName;
 
     public String getGameName() {

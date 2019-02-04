@@ -12,7 +12,9 @@ public class CreateGameService {
     Model model = Model.getInstance();
     public CreateGameResult createGame(CreateGameRequest req) {
         CreateGameResult res = new CreateGameResult();
-        if (model.createGame(req.getGameName(), req.getNumPlayers())) {
+        if (model.createGame(req.getGameName(), req.getNumPlayers(), req.getUserName())) {
+            res.setGameName(req.getGameName());
+            res.setNumPlayers(req.getNumPlayers());
             res.setSuccess(true);
             return res;
         }

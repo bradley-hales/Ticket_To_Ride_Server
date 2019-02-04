@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import Command.ClientCommand.AddGameCommand;
-import Command.ClientCommand.AddPlayerCommand;
 import Command.ClientCommand.BeginGameCommand;
 import Command.ClientCommand.RemoveGameCommand;
 import Result.GetCommandsResult;
@@ -25,7 +24,7 @@ public class Model {
 
     private HashMap<String, Game> games = new HashMap<>();
     private HashMap<String, User> users = new HashMap<>();
-    public boolean createGame(String gameName, int numPlayers) {
+    public boolean createGame(String gameName, int numPlayers, String userName) {
         if (games.containsKey(gameName)) {
             return false;
         }
@@ -40,7 +39,9 @@ public class Model {
         addGameCommand.setGameName(gameName);
         addGameCommand.setNumPlayers(numPlayers);
         for (User user: users.values()) {
-            user.addCommand(addGameCommand);
+            if (!user.getUserName().equals(userName)) {
+                user.addCommand(addGameCommand);
+            }
         }
         return true;
     }
@@ -48,10 +49,7 @@ public class Model {
         if (!users.containsKey(userName)) {
             return false;
         }
-        if (users.get(userName).equals(password)) {
-            return true;
-        }
-        return false;
+        return users.get(userName).getPassword().equals(password);
     }
     public boolean createUser(String userName, String password) {
         if (users.containsKey(userName)) {
@@ -64,34 +62,11 @@ public class Model {
         return true;
     }
 
-    public boolean beginGame(String gameName) {
-        Game gameToCheck = games.get(gameName);
-        if (gameToCheck == null) {
-            return false;
-        }
-        if (gameToCheck.getNumPlayers() == gameToCheck.getGamePlayers().size()) {
-            return true;
-        }
-        List<String> userNamesOfPlayers = new ArrayList<>();
-        for (Player player: gameToCheck.getGamePlayers().values()) {
-            userNamesOfPlayers.add(player.getUserName());
-        }
-        BeginGameCommand beginGameCommand = new BeginGameCommand();
-        beginGameCommand.setGameName(gameName);
-        for (String user: userNamesOfPlayers) {
-            users.get(user).addCommand(beginGameCommand);
-        }
-        return false;
-    }
-
     public boolean joinGame(String userName, String gameName) {
         Game game = games.get(gameName);
         if (game == null) {
             return false;
         }
-        AddPlayerCommand addPlayerCommand = new AddPlayerCommand();
-        addPlayerCommand.setGameName(gameName);
-        addPlayerCommand.setUsername(userName);
         if (game.getNumPlayers() == game.getGamePlayers().size()) {
             RemoveGameCommand removeGameCommand = new RemoveGameCommand();
             removeGameCommand.setGameName(gameName);
@@ -101,12 +76,21 @@ public class Model {
                 }
             }
         }
-        else {
-            for (User user: users.values()) {
-                user.addCommand(addPlayerCommand);
+        if (game.addPlayer(userName)) {
+            if (game.getNumPlayers() == game.getGamePlayers().size()) {
+                List<String> userNamesOfPlayers = new ArrayList<>();
+                for (Player player : game.getGamePlayers().values()) {
+                    userNamesOfPlayers.add(player.getUserName());
+                }
+                BeginGameCommand beginGameCommand = new BeginGameCommand();
+                beginGameCommand.setGameName(gameName);
+                for (String user : userNamesOfPlayers) {
+                    users.get(user).addCommand(beginGameCommand);
+                }
             }
+            return true;
         }
-        return game.addPlayer(userName);
+        return false;
     }
 
     public String getPlayerColor(String gameName, String userName) {

@@ -13,7 +13,7 @@ public class LoginService {
         LoginResult res = new LoginResult();
         if (model.authenticateUser(req.getUserName(), req.getPassword())) {
             res.setSuccess(true);
-	    res.setUserName(req.getUserName());
+	        res.setUserName(req.getUserName());
         }
         else {
             res.setErrorMessage("Invalid Login Credentials");

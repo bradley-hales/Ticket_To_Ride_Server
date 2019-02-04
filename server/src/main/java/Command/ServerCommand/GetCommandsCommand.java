@@ -11,6 +11,10 @@ import Service.GetCommandsService;
 
 public class GetCommandsCommand implements iServerCommand {
     private GetCommandsRequest data;
+    public GetCommandsCommand(GetCommandsRequest request) {
+        data = request;
+    }
+    @Override
     public GetCommandsResult execute() {
         GetCommandsService getCommandsService = new GetCommandsService();
         return getCommandsService.getCommands(data);

@@ -10,6 +10,10 @@ import Service.LoginService;
 
 public class LoginCommand implements iServerCommand {
     private LoginRequest data;
+    public LoginCommand(LoginRequest request) {
+        data = request;
+    }
+    @Override
     public LoginResult execute() {
         LoginService loginService = new LoginService();
         return loginService.login(data);

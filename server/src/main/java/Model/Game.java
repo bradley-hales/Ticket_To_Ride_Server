@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -8,6 +10,7 @@ import java.util.HashMap;
 
 public class Game {
     private HashMap<String, Player> gamePlayers;
+    private ArrayList<String> playerColors = new ArrayList<>(Arrays.asList("blue", "green", "red", "yellow", "black"));
     private String gameName;
     private int numPlayers;
 
@@ -21,21 +24,7 @@ public class Game {
         Player newPlayer = new Player();
         newPlayer.setUserName(userName);
         int numPlayersSoFar = gamePlayers.size();
-        if (numPlayersSoFar == 0) {
-            newPlayer.setColor("Blue");
-        }
-        else if (numPlayersSoFar == 1) {
-            newPlayer.setColor("Green");
-        }
-        else if (numPlayersSoFar == 2) {
-            newPlayer.setColor("Red");
-        }
-        else if (numPlayersSoFar == 3) {
-            newPlayer.setColor("Yellow");
-        }
-        else {
-            newPlayer.setColor("Black");
-        }
+        newPlayer.setColor(playerColors.get(numPlayersSoFar));
         gamePlayers.put(userName, newPlayer);
         return true;
     }
