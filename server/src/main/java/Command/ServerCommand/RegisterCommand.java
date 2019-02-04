@@ -1,6 +1,7 @@
 package Command.ServerCommand;
 
 import Request.RegisterRequest;
+import Request.iRequest;
 import Result.RegisterResult;
 import Service.RegisterService;
 
@@ -9,21 +10,21 @@ import Service.RegisterService;
  */
 
 public class RegisterCommand implements iServerCommand {
-    private RegisterRequest data;
-    public RegisterCommand(RegisterRequest request) {
+    private iRequest data;
+    public RegisterCommand(iRequest request) {
         data = request;
     }
     @Override
     public RegisterResult execute() {
         RegisterService registerService = new RegisterService();
-        return registerService.register(data);
+        return registerService.register((RegisterRequest)data);
     }
 
-    public RegisterRequest getData() {
+    public iRequest getData() {
         return data;
     }
 
-    public void setData(RegisterRequest data) {
+    public void setData(iRequest data) {
         this.data = data;
     }
 }
