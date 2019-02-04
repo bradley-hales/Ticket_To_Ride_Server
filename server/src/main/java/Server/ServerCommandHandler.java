@@ -76,7 +76,7 @@ public class ServerCommandHandler implements HttpHandler {
                 InputStream reqBody = exchange.getRequestBody();
                 String reqData = readString(reqBody);
                 Gson gson = new Gson();
-                type = LOGIN;
+                type = REGISTER;
                 //CommandType type = reqHeaders.get("type"); //TODO: Check what Client Side is calling this
                 switch (type) {
                     case LOGIN:
