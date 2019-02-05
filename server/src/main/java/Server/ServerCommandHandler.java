@@ -132,15 +132,15 @@ public class ServerCommandHandler implements HttpHandler {
     }
     private CommandType getCommandType(String s){
         switch (s) {
-            case "LOGIN":
+            case "S_LOGIN":
                 return CommandType.S_LOGIN;
-            case "REGISTER":
+            case "S_REGISTER":
                 return CommandType.S_REGISTER;
-            case "JOIN_GAME":
+            case "S_JOIN_GAME":
                 return CommandType.S_JOIN_GAME;
-            case "CREATE_GAME":
+            case "S_CREATE_GAME":
                 return CommandType.S_CREATE_GAME;
-            case "GET_COMMANDS":
+            case "S_POLL":
                 return CommandType.S_POLL;
             default:
                 return null;
