@@ -28,11 +28,11 @@ import Request.RegisterRequest;
 import Request.iRequest;
 import Result.iResult;
 
-import static Command.ServerCommand.CommandType.LOGIN;
-import static Command.ServerCommand.CommandType.REGISTER;
-import static Command.ServerCommand.CommandType.CREATE_GAME;
-import static Command.ServerCommand.CommandType.JOIN_GAME;
-import static Command.ServerCommand.CommandType.GET_COMMANDS;
+import static Command.ServerCommand.CommandType.S_LOGIN;
+import static Command.ServerCommand.CommandType.S_REGISTER;
+import static Command.ServerCommand.CommandType.S_CREATE_GAME;
+import static Command.ServerCommand.CommandType.S_JOIN_GAME;
+import static Command.ServerCommand.CommandType.S_POLL;
 
 
 /**
@@ -49,19 +49,19 @@ public class ServerCommandHandler implements HttpHandler {
 
     public iResult execute() {
         switch (type){
-            case CREATE_GAME:
+            case S_CREATE_GAME:
                 CreateGameCommand createGameCommand = new CreateGameCommand(data);
                 return createGameCommand.execute();
-            case GET_COMMANDS:
+            case S_POLL:
                 GetCommandsCommand getCommandsCommand = new GetCommandsCommand(data);
                 return getCommandsCommand.execute();
-            case LOGIN:
+            case S_LOGIN:
                 LoginCommand loginCommand = new LoginCommand(data);
                 return loginCommand.execute();
-            case REGISTER:
+            case S_REGISTER:
                 RegisterCommand registerCommand = new RegisterCommand(data);
                 return registerCommand.execute();
-            case JOIN_GAME:
+            case S_JOIN_GAME:
                 JoinGameCommand joinGameCommand = new JoinGameCommand(data);
                 return joinGameCommand.execute();
             default:
@@ -116,15 +116,15 @@ public class ServerCommandHandler implements HttpHandler {
         Gson gson = new Gson();
 
         switch (type) {
-            case LOGIN:
+            case S_LOGIN:
                 return gson.fromJson(reqData, LoginRequest.class);
-            case REGISTER:
+            case S_REGISTER:
                 return gson.fromJson(reqData, RegisterRequest.class);
-            case JOIN_GAME:
+            case S_JOIN_GAME:
                 return gson.fromJson(reqData, JoinGameRequest.class);
-            case CREATE_GAME:
+            case S_CREATE_GAME:
                 return gson.fromJson(reqData, CreateGameRequest.class);
-            case GET_COMMANDS:
+            case S_POLL:
                 return gson.fromJson(reqData, GetCommandsRequest.class);
             default:
                 return null;
@@ -133,15 +133,15 @@ public class ServerCommandHandler implements HttpHandler {
     private CommandType getCommandType(String s){
         switch (s) {
             case "LOGIN":
-                return CommandType.LOGIN;
+                return CommandType.S_LOGIN;
             case "REGISTER":
-                return CommandType.REGISTER;
+                return CommandType.S_REGISTER;
             case "JOIN_GAME":
-                return CommandType.JOIN_GAME;
+                return CommandType.S_JOIN_GAME;
             case "CREATE_GAME":
-                return CommandType.CREATE_GAME;
+                return CommandType.S_CREATE_GAME;
             case "GET_COMMANDS":
-                return CommandType.GET_COMMANDS;
+                return CommandType.S_POLL;
             default:
                 return null;
         }

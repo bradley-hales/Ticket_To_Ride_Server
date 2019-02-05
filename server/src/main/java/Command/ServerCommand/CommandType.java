@@ -5,5 +5,5 @@ package Command.ServerCommand;
  */
 
 public enum CommandType {
-    CREATE_GAME, GET_COMMANDS, JOIN_GAME, LOGIN, REGISTER
+    S_CREATE_GAME, S_POLL, S_JOIN_GAME, S_LOGIN, S_REGISTER
 }
