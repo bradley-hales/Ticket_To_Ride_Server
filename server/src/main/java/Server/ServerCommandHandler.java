@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import Command.ServerCommand.CommandType;
 import Command.ServerCommand.CreateGameCommand;
@@ -76,20 +78,15 @@ public class ServerCommandHandler implements HttpHandler {
                 InputStream reqBody = exchange.getRequestBody();
                 String reqData = readString(reqBody);
                 Gson gson = new Gson();
-                type = REGISTER;
-                //CommandType type = reqHeaders.get("type"); //TODO: Check what Client Side is calling this
-                switch (type) {
-                    case LOGIN:
-                        data = gson.fromJson(reqData, LoginRequest.class);
-                    case REGISTER:
-                        data = gson.fromJson(reqData, RegisterRequest.class);
-                    case JOIN_GAME:
-                        data = gson.fromJson(reqData, JoinGameRequest.class);
-                    case CREATE_GAME:
-                        data = gson.fromJson(reqData, CreateGameRequest.class);
-                    case GET_COMMANDS:
-                        data = gson.fromJson(reqData, GetCommandsRequest.class);
-                }
+
+                // get the type from the header
+                String header = getHeader(exchange.getRequestHeaders());
+                type = getCommandType(header);
+
+                // get the command object
+                data = getCommandObject(type, reqData);
+                //CommandType type = reqHeaders.get("type"); //TODO: Check Client side names for type
+
                 response = execute();
                 jsonStr = gson.toJson(response);
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
@@ -115,6 +112,51 @@ public class ServerCommandHandler implements HttpHandler {
     /*
         The readString method shows how to read a String from an InputStream.
     */
+    private iRequest getCommandObject(CommandType type, String reqData){
+        Gson gson = new Gson();
+
+        switch (type) {
+            case LOGIN:
+                return gson.fromJson(reqData, LoginRequest.class);
+            case REGISTER:
+                return gson.fromJson(reqData, RegisterRequest.class);
+            case JOIN_GAME:
+                return gson.fromJson(reqData, JoinGameRequest.class);
+            case CREATE_GAME:
+                return gson.fromJson(reqData, CreateGameRequest.class);
+            case GET_COMMANDS:
+                return gson.fromJson(reqData, GetCommandsRequest.class);
+            default:
+                return null;
+        }
+    }
+    private CommandType getCommandType(String s){
+        switch (s) {
+            case "LOGIN":
+                return CommandType.LOGIN;
+            case "REGISTER":
+                return CommandType.REGISTER;
+            case "JOIN_GAME":
+                return CommandType.JOIN_GAME;
+            case "CREATE_GAME":
+                return CommandType.CREATE_GAME;
+            case "GET_COMMANDS":
+                return CommandType.GET_COMMANDS;
+            default:
+                return null;
+        }
+    }
+
+    private String getHeader(Headers h){
+        try{
+            List<String> values = h.get("type");
+            return values.get(0);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private String readString(InputStream is) throws IOException {
         StringBuilder sb = new StringBuilder();
         InputStreamReader sr = new InputStreamReader(is);
