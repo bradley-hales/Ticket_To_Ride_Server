@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
 
 import Command.ServerCommand.CommandType;
@@ -28,12 +27,6 @@ import Request.RegisterRequest;
 import Request.iRequest;
 import Result.iResult;
 
-import static Command.ServerCommand.CommandType.S_LOGIN;
-import static Command.ServerCommand.CommandType.S_REGISTER;
-import static Command.ServerCommand.CommandType.S_CREATE_GAME;
-import static Command.ServerCommand.CommandType.S_JOIN_GAME;
-import static Command.ServerCommand.CommandType.S_POLL;
-
 
 /**
  * Created by jbasden on 1/31/19.
@@ -43,8 +36,6 @@ public class ServerCommandHandler implements HttpHandler {
     private iRequest data;
     private iResult response;
     private String jsonStr = null;
-    private String message = null;
-    private Double result = null;
     CommandType type;
 
     public iResult execute() {
@@ -85,7 +76,6 @@ public class ServerCommandHandler implements HttpHandler {
 
                 // get the command object
                 data = getCommandObject(type, reqData);
-                //CommandType type = reqHeaders.get("type"); //TODO: Check Client side names for type
                 System.out.println("a request came through");
                 response = execute();
                 jsonStr = gson.toJson(response);
