@@ -43,8 +43,6 @@ public class ServerCommandHandler implements HttpHandler {
     private iRequest data;
     private iResult response;
     private String jsonStr = null;
-    private String message = null;
-    private Double result = null;
     CommandType type;
 
     public iResult execute() {

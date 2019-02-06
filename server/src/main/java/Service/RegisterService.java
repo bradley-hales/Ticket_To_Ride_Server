@@ -12,12 +12,8 @@ public class RegisterService {
     Model model = Model.getInstance();
     public RegisterResult register(RegisterRequest req) {
         RegisterResult res = new RegisterResult();
-        if (!req.getPassword().equals(req.getConfirmPassword())) {
-            res.setErrorMessage("Passwords must match");
-            res.setSuccess(false);
-            return res;
-        }
         if (model.createUser(req.getUserName(), req.getPassword())) {
+            res.setUserName(req.getUserName());
             res.setSuccess(true);
             return res;
         }
