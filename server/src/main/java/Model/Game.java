@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 
 public class Game {
-    private HashMap<String, Player> gamePlayers;
+    private HashMap<String, Player> gamePlayers = new HashMap<>();
     private ArrayList<String> playerColors = new ArrayList<>(Arrays.asList("blue", "green", "red", "yellow", "black"));
     private String gameName;
     private int numPlayers;

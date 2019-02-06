@@ -13,6 +13,7 @@ public class RegisterService {
     public RegisterResult register(RegisterRequest req) {
         RegisterResult res = new RegisterResult();
         if (model.createUser(req.getUserName(), req.getPassword())) {
+            res.setUserName(req.getUserName());
             res.setSuccess(true);
             return res;
         }
