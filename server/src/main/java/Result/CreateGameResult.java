@@ -7,8 +7,7 @@ package Result;
 public class CreateGameResult implements iResult {
     private String errorMessage;
     private boolean success;
-    private String gameName;
-    private int numPlayers;
+    GameInfoResult gameInfo;
 
     public String getErrorMessage() {
         return errorMessage;
@@ -26,19 +25,11 @@ public class CreateGameResult implements iResult {
         this.success = success;
     }
 
-    public String getGameName() {
-        return gameName;
+    public GameInfoResult getGameInfo() {
+        return gameInfo;
     }
 
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
-    public int getNumPlayers() {
-        return numPlayers;
-    }
-
-    public void setNumPlayers(int numPlayers) {
-        this.numPlayers = numPlayers;
+    public void setGameInfo(GameInfoResult gameInfo) {
+        this.gameInfo = gameInfo;
     }
 }
