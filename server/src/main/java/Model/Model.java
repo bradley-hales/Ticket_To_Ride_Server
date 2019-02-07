@@ -119,4 +119,20 @@ public class Model {
         user.clearCommands();
         return res;
     }
+
+    public HashMap<String, Game> getGames() {
+        return games;
+    }
+
+    public void setGames(HashMap<String, Game> games) {
+        this.games = games;
+    }
+
+    public HashMap<String, User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(HashMap<String, User> users) {
+        this.users = users;
+    }
 }
