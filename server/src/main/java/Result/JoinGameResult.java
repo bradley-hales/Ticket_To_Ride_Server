@@ -7,6 +7,9 @@ package Result;
 public class JoinGameResult implements iResult {
     private String errorMessage;
     private boolean success;
+    private String userName;
+    private String gameName;
+    private int numPlayers;
     private String playerColor;
 
     public String getErrorMessage() {
@@ -31,5 +34,17 @@ public class JoinGameResult implements iResult {
 
     public void setPlayerColor(String playerColor) {
         this.playerColor = playerColor;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
     }
 }
