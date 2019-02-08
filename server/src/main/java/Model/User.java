@@ -17,6 +17,7 @@ public class User {
     public List<iClientCommand> getCommands() {
         return commandList;
     }
+
     public void addCommand(iClientCommand command) {
         commandList.add(command);
     }

@@ -14,6 +14,7 @@ public class LoginService {
         if (model.authenticateUser(req.getUserName(), req.getPassword())) {
             res.setSuccess(true);
 	        res.setUserName(req.getUserName());
+	        model.addAllAddableGamesToCommandLists(req.getUserName());
         }
         else {
             res.setErrorMessage("Invalid Login Credentials");

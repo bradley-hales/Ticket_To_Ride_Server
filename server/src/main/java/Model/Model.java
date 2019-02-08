@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.sound.midi.SysexMessage;
+
 import Command.ClientCommand.AddGameCommand;
 import Command.ClientCommand.BeginGameCommand;
 import Command.ClientCommand.RemoveGameCommand;
+import Command.ClientCommand.iClientCommand;
 import Result.GetCommandsResult;
 
 /**
@@ -24,6 +27,7 @@ public class Model {
 
     private HashMap<String, Game> games = new HashMap<>();
     private HashMap<String, User> users = new HashMap<>();
+
     public boolean createGame(String gameName, int numPlayers, String userName) {
         if (games.containsKey(gameName)) {
             return false;
@@ -34,6 +38,7 @@ public class Model {
         Game game = new Game();
         game.setGameName(gameName);
         game.setNumPlayers(numPlayers);
+        game.setStarted(false);
         games.put(gameName, game);
         AddGameCommand addGameCommand = new AddGameCommand();
         addGameCommand.setGameName(gameName);
@@ -43,14 +48,23 @@ public class Model {
                 user.addCommand(addGameCommand);
             }
         }
+        for (User user: users.values()) {
+            List<iClientCommand> commands = user.getCommands();
+            List<AddGameCommand> addGameCommands = new ArrayList<>();
+            for (iClientCommand command: commands) {
+                addGameCommands.add((AddGameCommand) command);
+            }
+        }
         return true;
     }
+
     public boolean authenticateUser(String userName, String password) {
         if (!users.containsKey(userName)) {
             return false;
         }
         return users.get(userName).getPassword().equals(password);
     }
+
     public boolean createUser(String userName, String password) {
         if (users.containsKey(userName)) {
             return false;
@@ -67,15 +81,6 @@ public class Model {
         if (game == null) {
             return false;
         }
-        if (game.getNumPlayers() == game.getGamePlayers().size()) {
-            RemoveGameCommand removeGameCommand = new RemoveGameCommand();
-            removeGameCommand.setGameName(gameName);
-            for (User user: users.values()) {
-                if (!game.getGamePlayers().keySet().contains(user.getUserName())) {
-                    user.addCommand(removeGameCommand);
-                }
-            }
-        }
         if (game.addPlayer(userName)) {
             if (game.getNumPlayers() == game.getGamePlayers().size()) {
                 List<String> userNamesOfPlayers = new ArrayList<>();
@@ -86,6 +91,14 @@ public class Model {
                 beginGameCommand.setGameName(gameName);
                 for (String user : userNamesOfPlayers) {
                     users.get(user).addCommand(beginGameCommand);
+                }
+                game.setStarted(true);
+                RemoveGameCommand removeGameCommand = new RemoveGameCommand();
+                removeGameCommand.setGameName(gameName);
+                for (User user: users.values()) {
+                    if (!userNamesOfPlayers.contains(user.getUserName())) {
+                        user.addCommand(removeGameCommand);
+                    }
                 }
             }
             return true;
@@ -114,10 +127,22 @@ public class Model {
             res.setSuccess(false);
             return res;
         }
-        res.setCommandList(user.getCommands());
+        res.setCommandList(new ArrayList<>(user.getCommands()));
         res.setSuccess(true);
         user.clearCommands();
         return res;
+    }
+
+    public void addAllAddableGamesToCommandLists(String userName) {
+        users.get(userName).clearCommands();
+        for (Game gameToCheck: games.values()) {
+            if (!gameToCheck.isStarted()) {
+                AddGameCommand addGameCommand = new AddGameCommand();
+                addGameCommand.setGameName(gameToCheck.getGameName());
+                addGameCommand.setNumPlayers(gameToCheck.getNumPlayers());
+                users.get(userName).addCommand(addGameCommand);
+            }
+        }
     }
 
     public HashMap<String, Game> getGames() {

@@ -15,6 +15,7 @@ public class RegisterService {
         if (model.createUser(req.getUserName(), req.getPassword())) {
             res.setUserName(req.getUserName());
             res.setSuccess(true);
+            model.addAllAddableGamesToCommandLists(req.getUserName());
             return res;
         }
         res.setErrorMessage("Username was already taken");
