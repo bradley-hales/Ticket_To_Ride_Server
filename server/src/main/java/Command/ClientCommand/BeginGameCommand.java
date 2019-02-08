@@ -9,7 +9,6 @@ import Model.Game;
 public class BeginGameCommand implements iClientCommand {
     private String gameName;
     private Game game;
-    private boolean success;
 
     public String getGameName() {
         return gameName;
@@ -25,13 +24,5 @@ public class BeginGameCommand implements iClientCommand {
 
     public void setGame(Game game) {
         this.game = game;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 }

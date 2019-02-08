@@ -89,7 +89,6 @@ public class Model {
                 }
                 BeginGameCommand beginGameCommand = new BeginGameCommand();
                 beginGameCommand.setGameName(gameName);
-                beginGameCommand.setSuccess(true);
                 beginGameCommand.setGame(game);
                 for (String user : userNamesOfPlayers) {
                     users.get(user).addCommand(beginGameCommand);
