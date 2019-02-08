@@ -50,7 +50,7 @@ public class Model {
         AddGameCommand addGameCommand = new AddGameCommand();
         GameInfoResult gameInfo = new GameInfoResult();
         gameInfo.setNumPlayers(numPlayers);
-        gameInfo.setName(gameName);
+        gameInfo.setGameName(gameName);
         addGameCommand.setGameInfo(gameInfo);
 
         commandData.setData(new Gson().toJson(addGameCommand));
@@ -154,8 +154,10 @@ public class Model {
             if (!gameToCheck.isStarted()) {
                 commandData.setType(ClientCommandType.C_CREATE_GAME);
                 AddGameCommand addGameCommand = new AddGameCommand();
-                addGameCommand.setGameName(gameToCheck.getGameName());
-                addGameCommand.setNumPlayers(gameToCheck.getNumPlayers());
+                GameInfoResult gameInfo = new GameInfoResult();
+                gameInfo.setGameName(gameToCheck.getGameName());
+                gameInfo.setNumPlayers(gameToCheck.getNumPlayers());
+                addGameCommand.setGameInfo(gameInfo);
                 commandData.setData(new Gson().toJson(addGameCommand));
                 users.get(userName).addCommand(commandData);
             }

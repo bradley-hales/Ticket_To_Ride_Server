@@ -15,7 +15,7 @@ public class CreateGameService {
         CreateGameResult res = new CreateGameResult();
         GameInfoResult gameInfo = new GameInfoResult();
         if (model.createGame(req.getGameName(), req.getNumPlayers(), req.getUserName())) {
-            gameInfo.setName(req.getGameName());
+            gameInfo.setGameName(req.getGameName());
             gameInfo.setNumPlayers(req.getNumPlayers());
             res.setGameInfo(gameInfo);
             res.setSuccess(true);

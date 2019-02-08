@@ -1,15 +1,15 @@
 package Result;
 
 public class GameInfoResult {
-    String name;
+    String gameName;
     int numPlayers;
 
-    public String getName() {
-        return name;
+    public String getGameName() {
+        return gameName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGameName(String name) {
+        this.gameName = name;
     }
 
     public int getNumPlayers() {
