@@ -18,7 +18,7 @@ public class RegisterService {
             model.addAllAddableGamesToCommandLists(req.getUserName());
             return res;
         }
-        res.setErrorMessage("Username was already taken");
+        res.setErrorMessage("Invalid username or password");
         res.setSuccess(false);
         return res;
     }
