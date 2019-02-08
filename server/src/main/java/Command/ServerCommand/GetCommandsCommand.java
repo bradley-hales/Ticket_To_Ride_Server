@@ -28,4 +28,5 @@ public class GetCommandsCommand implements iServerCommand {
     public void setData(iRequest data) {
         this.data = data;
     }
+
 }

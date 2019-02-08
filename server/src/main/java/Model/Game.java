@@ -13,6 +13,7 @@ public class Game {
     private ArrayList<String> playerColors = new ArrayList<>(Arrays.asList("blue", "green", "red", "yellow", "black"));
     private String gameName;
     private int numPlayers;
+    private boolean started;
 
     public boolean addPlayer(String userName) {
         if (gamePlayers.containsKey(userName)) {
@@ -51,5 +52,13 @@ public class Game {
 
     public void setGamePlayers(HashMap<String, Player> gamePlayers) {
         this.gamePlayers = gamePlayers;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 }
