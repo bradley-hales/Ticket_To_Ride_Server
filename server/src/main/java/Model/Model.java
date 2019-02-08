@@ -149,7 +149,7 @@ public class Model {
 
     public void addAllAddableGamesToCommandLists(String userName) {
         users.get(userName).clearCommands();
-        CommandData commandData = new CommandData();
+        CommandData commandData;
         for (Game gameToCheck: games.values()) {
             if (!gameToCheck.isStarted()) {
                 commandData = new CommandData();
