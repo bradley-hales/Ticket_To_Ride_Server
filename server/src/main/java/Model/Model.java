@@ -149,13 +149,15 @@ public class Model {
 
     public void addAllAddableGamesToCommandLists(String userName) {
         users.get(userName).clearCommands();
-        CommandData commandData = new CommandData();
+        CommandData commandData;
         for (Game gameToCheck: games.values()) {
             if (!gameToCheck.isStarted()) {
+                commandData = new CommandData();
                 commandData.setType(ClientCommandType.C_CREATE_GAME);
                 AddGameCommand addGameCommand = new AddGameCommand();
                 GameInfoResult gameInfo = new GameInfoResult();
                 gameInfo.setGameName(gameToCheck.getGameName());
+                System.out.println(gameToCheck.getGameName());
                 gameInfo.setNumPlayers(gameToCheck.getNumPlayers());
                 addGameCommand.setGameInfo(gameInfo);
                 commandData.setData(new Gson().toJson(addGameCommand));

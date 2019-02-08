@@ -1,5 +1,7 @@
 package Model;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,19 @@ public class User {
     private List<iClientCommand> commandList = new ArrayList<>();
 
     public List<iClientCommand> getCommands() {
+        System.out.println("user.getCommand");
+        System.out.println(new Gson().toJson(commandList));
         return commandList;
     }
 
     public void addCommand(iClientCommand command) {
+        System.out.println("User.addCommand");
+        System.out.println(new Gson().toJson(command));
+        System.out.println("Command List before");
+        System.out.println(new Gson().toJson(commandList));
         commandList.add(command);
+        System.out.println("Command List after");
+        System.out.println(new Gson().toJson(commandList));
     }
 
     public String getUserName() {
