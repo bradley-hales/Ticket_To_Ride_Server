@@ -11,6 +11,7 @@ import Command.ClientCommand.BeginGameCommand;
 import Command.ClientCommand.ClientCommandType;
 import Command.ClientCommand.CommandData;
 import Command.ClientCommand.RemoveGameCommand;
+import Result.GameInfoResult;
 import Result.GetCommandsResult;
 
 /**
@@ -47,8 +48,11 @@ public class Model {
         CommandData commandData = new CommandData();
         commandData.setType(ClientCommandType.C_CREATE_GAME);
         AddGameCommand addGameCommand = new AddGameCommand();
-        addGameCommand.setGameName(gameName);
-        addGameCommand.setNumPlayers(numPlayers);
+        GameInfoResult gameInfo = new GameInfoResult();
+        gameInfo.setNumPlayers(numPlayers);
+        gameInfo.setName(gameName);
+        addGameCommand.setGameInfo(gameInfo);
+
         commandData.setData(new Gson().toJson(addGameCommand));
         for (User user: users.values()) {
             if (!user.getUserName().equals(userName)) {
