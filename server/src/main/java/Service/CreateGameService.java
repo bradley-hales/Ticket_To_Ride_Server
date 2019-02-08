@@ -21,7 +21,7 @@ public class CreateGameService {
             res.setSuccess(true);
             return res;
         }
-        res.setErrorMessage("Game Name was already taken, or invalid number of players");
+        res.setErrorMessage("Invalid Game Name");
         res.setSuccess(false);
         res.setGameInfo(null);
         return res;

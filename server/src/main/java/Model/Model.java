@@ -36,6 +36,9 @@ public class Model {
         if (numPlayers < 2 || numPlayers > 5) {
             return false;
         }
+        if (gameName.length() == 0) {
+            return false;
+        }
         Game game = new Game();
         game.setGameName(gameName);
         game.setNumPlayers(numPlayers);
@@ -64,6 +67,9 @@ public class Model {
 
     public boolean createUser(String userName, String password) {
         if (users.containsKey(userName)) {
+            return false;
+        }
+        if (userName.length() == 0 || password.length() == 0) {
             return false;
         }
         User user = new User();
