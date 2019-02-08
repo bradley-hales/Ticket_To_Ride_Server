@@ -1,15 +1,16 @@
 package Model;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.sound.midi.SysexMessage;
-
 import Command.ClientCommand.AddGameCommand;
 import Command.ClientCommand.BeginGameCommand;
+import Command.ClientCommand.ClientCommandType;
+import Command.ClientCommand.CommandData;
 import Command.ClientCommand.RemoveGameCommand;
-import Command.ClientCommand.iClientCommand;
 import Result.GetCommandsResult;
 
 /**
@@ -40,19 +41,15 @@ public class Model {
         game.setNumPlayers(numPlayers);
         game.setStarted(false);
         games.put(gameName, game);
+        CommandData commandData = new CommandData();
+        commandData.setType(ClientCommandType.C_CREATE_GAME);
         AddGameCommand addGameCommand = new AddGameCommand();
         addGameCommand.setGameName(gameName);
         addGameCommand.setNumPlayers(numPlayers);
+        commandData.setData(new Gson().toJson(addGameCommand));
         for (User user: users.values()) {
             if (!user.getUserName().equals(userName)) {
-                user.addCommand(addGameCommand);
-            }
-        }
-        for (User user: users.values()) {
-            List<iClientCommand> commands = user.getCommands();
-            List<AddGameCommand> addGameCommands = new ArrayList<>();
-            for (iClientCommand command: commands) {
-                addGameCommands.add((AddGameCommand) command);
+                user.addCommand(commandData);
             }
         }
         return true;
@@ -87,18 +84,24 @@ public class Model {
                 for (Player player : game.getGamePlayers().values()) {
                     userNamesOfPlayers.add(player.getUserName());
                 }
+                CommandData commandData = new CommandData();
+                commandData.setType(ClientCommandType.C_BEGIN_PLAY);
                 BeginGameCommand beginGameCommand = new BeginGameCommand();
                 beginGameCommand.setGameName(gameName);
                 beginGameCommand.setGame(game);
+                commandData.setData(new Gson().toJson(beginGameCommand));
                 for (String user : userNamesOfPlayers) {
-                    users.get(user).addCommand(beginGameCommand);
+                    users.get(user).addCommand(commandData);
                 }
                 game.setStarted(true);
+                commandData = new CommandData();
+                commandData.setType(ClientCommandType.C_REMOVE_GAME);
                 RemoveGameCommand removeGameCommand = new RemoveGameCommand();
                 removeGameCommand.setGameName(gameName);
+                commandData.setData(new Gson().toJson(removeGameCommand));
                 for (User user: users.values()) {
                     if (!userNamesOfPlayers.contains(user.getUserName())) {
-                        user.addCommand(removeGameCommand);
+                        user.addCommand(commandData);
                     }
                 }
             }
@@ -136,12 +139,15 @@ public class Model {
 
     public void addAllAddableGamesToCommandLists(String userName) {
         users.get(userName).clearCommands();
+        CommandData commandData = new CommandData();
         for (Game gameToCheck: games.values()) {
             if (!gameToCheck.isStarted()) {
+                commandData.setType(ClientCommandType.C_CREATE_GAME);
                 AddGameCommand addGameCommand = new AddGameCommand();
                 addGameCommand.setGameName(gameToCheck.getGameName());
                 addGameCommand.setNumPlayers(gameToCheck.getNumPlayers());
-                users.get(userName).addCommand(addGameCommand);
+                commandData.setData(new Gson().toJson(addGameCommand));
+                users.get(userName).addCommand(commandData);
             }
         }
     }
