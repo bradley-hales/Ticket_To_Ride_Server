@@ -1,6 +1,5 @@
 package Command.ServerCommand;
 
-import Command.ClientCommand.iClientCommand;
 import Request.GetCommandsRequest;
 import Request.iRequest;
 import Result.GetCommandsResult;
