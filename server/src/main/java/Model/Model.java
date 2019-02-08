@@ -11,6 +11,7 @@ import Command.ClientCommand.BeginGameCommand;
 import Command.ClientCommand.ClientCommandType;
 import Command.ClientCommand.CommandData;
 import Command.ClientCommand.RemoveGameCommand;
+import Result.GameInfoResult;
 import Result.GetCommandsResult;
 
 /**
@@ -47,8 +48,11 @@ public class Model {
         CommandData commandData = new CommandData();
         commandData.setType(ClientCommandType.C_CREATE_GAME);
         AddGameCommand addGameCommand = new AddGameCommand();
-        addGameCommand.setGameName(gameName);
-        addGameCommand.setNumPlayers(numPlayers);
+        GameInfoResult gameInfo = new GameInfoResult();
+        gameInfo.setNumPlayers(numPlayers);
+        gameInfo.setGameName(gameName);
+        addGameCommand.setGameInfo(gameInfo);
+
         commandData.setData(new Gson().toJson(addGameCommand));
         for (User user: users.values()) {
             if (!user.getUserName().equals(userName)) {
@@ -150,8 +154,10 @@ public class Model {
             if (!gameToCheck.isStarted()) {
                 commandData.setType(ClientCommandType.C_CREATE_GAME);
                 AddGameCommand addGameCommand = new AddGameCommand();
-                addGameCommand.setGameName(gameToCheck.getGameName());
-                addGameCommand.setNumPlayers(gameToCheck.getNumPlayers());
+                GameInfoResult gameInfo = new GameInfoResult();
+                gameInfo.setGameName(gameToCheck.getGameName());
+                gameInfo.setNumPlayers(gameToCheck.getNumPlayers());
+                addGameCommand.setGameInfo(gameInfo);
                 commandData.setData(new Gson().toJson(addGameCommand));
                 users.get(userName).addCommand(commandData);
             }

@@ -1,26 +1,20 @@
 package Command.ClientCommand;
 
+import Result.GameInfoResult;
+
 /**
  * Created by jbasden on 1/29/19.
  */
 
 public class AddGameCommand implements iClientCommand {
-    private String gameName;
-    private int numPlayers;
+    private GameInfoResult gameInfo;
 
-    public String getGameName() {
-        return gameName;
+    public GameInfoResult getGameInfo() {
+        return gameInfo;
     }
 
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
+    public void setGameInfo(GameInfoResult gameInfo) {
+        this.gameInfo = gameInfo;
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
-    }
-
-    public void setNumPlayers(int numPlayers) {
-        this.numPlayers = numPlayers;
-    }
 }
